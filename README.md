@@ -71,14 +71,14 @@ Once the repository is cloned, each team member must:
 
 **Important:** Pushing directly to the repository without creating a pull request will result in point deductions in Milestone 1.
 
-| Team Member       | SFSU Email Address     | GitHub Username      | Roles (optional)    |
-|-------------------|------------------------|----------------------|---------------------|
-| [Enter full name] | [Enter SFSU email]     | [Enter GitHub user]  | Team Lead           |
-| [Enter full name] | [Enter SFSU email]     | [Enter GitHub user]  | [Enter GitHub user] |
-| [Enter full name] | [Enter SFSU email]     | [Enter GitHub user]  | [Enter GitHub user] |
-| [Enter full name] | [Enter SFSU email]     | [Enter GitHub user]  | [Enter GitHub user] |
-| [Enter full name] | [Enter SFSU email]     | [Enter GitHub user]  | [Enter GitHub user] |
-| [Enter full name] | [Enter SFSU email]     | [Enter GitHub user]  | [Enter GitHub user] |
+| Team Member       | SFSU Email Address | GitHub Username     | Roles (optional)    |
+|-------------------|--------------------|---------------------|---------------------|
+| Kiran Khatri      | 923750019          | khatri5034          | Team Lead           |
+| [Enter full name] | [Enter SFSU email] | [Enter GitHub user] | [Enter GitHub user] |
+| [Enter full name] | [Enter SFSU email] | [Enter GitHub user] | [Enter GitHub user] |
+| [Enter full name] | [Enter SFSU email] | [Enter GitHub user] | [Enter GitHub user] |
+| [Enter full name] | [Enter SFSU email] | [Enter GitHub user] | [Enter GitHub user] |
+| [Enter full name] | [Enter SFSU email] | [Enter GitHub user] | [Enter GitHub user] |
 
 
 ##
