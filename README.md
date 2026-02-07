@@ -73,7 +73,7 @@ Once the repository is cloned, each team member must:
 
 | Team Member       | SFSU Email Address | GitHub Username     | Roles (optional)    |
 |-------------------|--------------------|---------------------|---------------------|
-| Kiran Khatri      | 923750019          | khatri5034          | Team Lead           |
+| Kiran Khatri      | kkhatri@sfsu.edu   | khatri5034          | Team Lead           |          |
 | Ishaank Zalpuri   | izalpuri@sfsu.edu  | izalpuri-creator    | [Enter GitHub user] |
 | Kerry Yu          | kyu19@sfsu.edu     | Kerry3616           | [Enter GitHub user] |
 | [Enter full name] | [Enter SFSU email] | [Enter GitHub user] | [Enter GitHub user] |
