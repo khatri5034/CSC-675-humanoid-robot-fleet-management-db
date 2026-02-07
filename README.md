@@ -73,9 +73,9 @@ Once the repository is cloned, each team member must:
 
 | Team Member       | SFSU Email Address | GitHub Username     | Roles (optional)    |
 |-------------------|--------------------|---------------------|---------------------|
-| Kiran Khatri      | kkhatri@sfsu.edu   | khatri5034          | Team Lead           |
-| [Enter full name] | [Enter SFSU email] | [Enter GitHub user] | [Enter GitHub user] |
-| [Enter full name] | [Enter SFSU email] | [Enter GitHub user] | [Enter GitHub user] |
+| Kiran Khatri      | kkhatri@sfsu.edu   | khatri5034          | Team Lead           |          |
+| Ishaank Zalpuri   | izalpuri@sfsu.edu  | izalpuri-creator    | [Enter GitHub user] |
+| Kerry Yu          | kyu19@sfsu.edu     | Kerry3616           | [Enter GitHub user] |
 | [Enter full name] | [Enter SFSU email] | [Enter GitHub user] | [Enter GitHub user] |
 | [Enter full name] | [Enter SFSU email] | [Enter GitHub user] | [Enter GitHub user] |
 | [Enter full name] | [Enter SFSU email] | [Enter GitHub user] | [Enter GitHub user] |
@@ -89,9 +89,9 @@ Once the repository is cloned, each team member must:
 
 Once brainstormed and approved by the instructor, add your team alias and your project info.
 
-| Team Alias | Project Title | Project Description |
-|-----------|---------------|---------------------|
-| [Alias]   | [Title]       | [Brief description] |
+| Team Alias | Project Title                                     | Project Description |
+|------------|---------------------------------------------------|--|
+| Robo-Nexus | AI-Powered Humanoid Robot Fleet Management System | A centralized, AI-assisted platform for managing humanoid robot fleets. |
 
 Once your team alias is determined, update your repository URL and replace your username with your team alias. For 
 example, if my team alias is `overlords`, a repository originally named:
