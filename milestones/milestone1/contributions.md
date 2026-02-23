@@ -8,7 +8,7 @@
 ## Instructions for team members
 
 - **Fill in only your section** with specific contributions. Do not use vague phrases like "helped with design" or "worked on the document."
-- List **concrete tasks**: which sections you wrote, which entities you defined, which parts of the EER you created or reviewed, etc.
+- List **concrete tasks**: which sections you wrote, which entities you defined, which parts of the EER you created or reviewed
 
 ---
 
