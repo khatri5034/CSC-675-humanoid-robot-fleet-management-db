@@ -28,7 +28,7 @@
 **Email:** kyu19@sfsu.edu  
 **GitHub:** Kerry3616
 
-- Functional requirements: Support Request, Software Version, Factory
+- Functional requirements: Support Request, Software Version, Factory, Task, Deployment Location, Address
 - Non-Functional requirements: Reliability
 - ERD diagram
 
