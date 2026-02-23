@@ -26,11 +26,11 @@
 
 ## Kerry Yu
 **Email:** kyu19@sfsu.edu  
-**GitHub:** *(add your GitHub username)*
+**GitHub:** Kerry3616
 
-- *(Replace with your specific contributions. Be concrete: which sections, entities, or diagram parts did you work on?)*
-- 
-- 
+- Functional requirements: Support Request, Software Version, Factory
+- Non-Functional requirements: Reliability
+- ERD diagram
 
 ---
 
