@@ -46,11 +46,11 @@
 
 ## Ishaank Zalpuri
 **Email:** izalpuri@sfsu.edu  
-**GitHub:** *(add your GitHub username)*
+**GitHub:** izalpuri-creator
 
-- *(Replace with your specific contributions. Be concrete.)*
-- 
-- 
+- Added functional requirements
+- Worked on relations for some funcitonal requirements
+- Worked on ERD diagram
 
 ---
 
