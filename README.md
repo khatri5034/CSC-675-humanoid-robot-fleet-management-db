@@ -78,7 +78,7 @@ Once the repository is cloned, each team member must:
 | Kerry Yu          | kyu19@sfsu.edu     | Kerry3616           | [Enter GitHub user] |
 | Dias Almat        | dalmat@sfsu.edu    | vincivv             | [Enter GitHub user] |
 | Etienne Ghashehbaba | eghashehbaba@mail.sfsu.edu | Ahe4d | [Enter GitHub user] |
-| [Enter full name] | [Enter SFSU email] | [Enter GitHub user] | [Enter GitHub user] |
+| Shadi Daher       | sdaher@sfsu.edu    | shadii10            | [Enter GitHub user] |
 
 
 ##
