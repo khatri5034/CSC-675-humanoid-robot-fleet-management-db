@@ -48,10 +48,11 @@
 **Email:** izalpuri@sfsu.edu  
 **GitHub:** izalpuri-creator
 
-- Added functional requirements
-- Worked on relations for some funcitonal requirements
+- Added functional requirements: RobotModel, Operator, Task Assignment, Task Execution, Log
+- Worked on relations for some functional requirements
+- Worked on non-functional requirements
 - Worked on parts of ERD diagram
-- Worked on main data items and entities
+- Added main data items and entities
 
 ---
 
