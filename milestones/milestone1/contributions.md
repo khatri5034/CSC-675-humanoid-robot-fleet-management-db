@@ -36,11 +36,11 @@
 
 ## Dias Almat
 **Email:** dalmat@sfsu.edu  
-**GitHub:** *(add your GitHub username)*
+**GitHub:** vincivv
 
-- *(Replace with your specific contributions. Be concrete.)*
-- 
-- 
+- Functional requirements: Robot, Charging Station, Charging Session, Sensor
+- Non-Functional requirements: Maintainability and Coding Standards, Scalability, Performance
+- EER diagram (Was done together with the group through a shared .drawio file)
 
 ---
 
