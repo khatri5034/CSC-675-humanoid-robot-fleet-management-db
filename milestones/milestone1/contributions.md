@@ -20,7 +20,7 @@
 - Project Description
 - Competitive analysis
 - Functional requirements: AI Model, AI Response, AI Request, Emotion Record, Robot Role, Interaction Session, Home, Hospital, Warehouse, Emotional pattern
-- EER diagram (shared .drawio file in group)
+- ERD diagram (shared .drawio file in group)
 
 ---
 
@@ -40,7 +40,7 @@
 
 - Functional requirements: Robot, Charging Station, Charging Session, Sensor
 - Non-Functional requirements: Maintainability and Coding Standards, Scalability, Performance
-- EER diagram (Was done together with the group through a shared .drawio file)
+- ERD diagram (Was done together with the group through a shared .drawio file)
 
 ---
 
@@ -60,8 +60,8 @@
 **Email:** eghashehbaba@mail.sfsu.edu  
 **GitHub:** ahe4d
 
-- EDD diagram (helped fill in Assignments and Locations)
-- Worked on functional requirements: Deployment Location, Assignment, Address, Factory
-- Worked on non-functional requirements
+- ERD diagram (helped fill in Assignments and Locations)
+- Worked on functional requirements: Manufacturer, Alert, Department, DiagnosticReport, Hardware
+- contributed to Data items and entities in a shared folder together
 
 ---
