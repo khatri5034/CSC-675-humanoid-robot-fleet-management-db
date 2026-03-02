@@ -38,7 +38,7 @@
 **Email:** dalmat@sfsu.edu  
 **GitHub:** vincivv
 
-- Functional requirements: Robot, Charging Station, Charging Session, Sensor
+- Functional requirements: Robot, Charging Station, Charging Session, Sensor, Energy Status
 - Non-Functional requirements: Maintainability and Coding Standards, Scalability, Performance
 - ERD diagram (Was done together with the group through a shared .drawio file)
 
@@ -64,4 +64,11 @@
 - Worked on functional requirements: Manufacturer, Alert, Department, DiagnosticReport, Hardware
 - contributed to Data items and entities in a shared folder together
 
+## Shadi Daher
+**Email:** sdaher@sfsu.edu   
+**GitHub:** shadii10 
+
+- Functional requirements: Technician, Performance metric, Maintenance record  
+- ERD diagram in a shared google drive in a group together.
+- Helped with M1V2 document formatting.
 ---
