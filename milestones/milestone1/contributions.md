@@ -21,6 +21,7 @@
 - Competitive analysis
 - Functional requirements: AI Model, AI Response, AI Request, Emotion Record, Robot Role, Interaction Session, Home, Hospital, Warehouse, Emotional pattern
 - ERD diagram (shared .drawio file in group)
+- Added main data items and entities
 
 ---
 
@@ -31,6 +32,7 @@
 - Functional requirements: Support Request, Software Version, Factory, Task, Deployment Location, Address
 - Non-Functional requirements: Reliability
 - ERD diagram
+- Added main data items and entities
 
 ---
 
@@ -41,6 +43,7 @@
 - Functional requirements: Robot, Charging Station, Charging Session, Sensor, Energy Status
 - Non-Functional requirements: Maintainability and Coding Standards, Scalability, Performance
 - ERD diagram (Was done together with the group through a shared .drawio file)
+- Added main data items and entities
 
 ---
 
@@ -50,8 +53,8 @@
 
 - Added functional requirements: RobotModel, Operator, Task Assignment, Task Execution, Log
 - Worked on relations for some functional requirements
-- Worked on non-functional requirements
-- Worked on parts of ERD diagram
+- Non-functional requirement: Storage, Security
+- Worked on parts of ERD diagram through shared .drawio file in google drive.
 - Added main data items and entities
 
 ---
