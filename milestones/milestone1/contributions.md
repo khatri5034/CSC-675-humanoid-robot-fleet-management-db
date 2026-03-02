@@ -48,9 +48,11 @@
 **Email:** izalpuri@sfsu.edu  
 **GitHub:** *(add your GitHub username)*
 
-- *(Replace with your specific contributions. Be concrete.)*
-- 
-- 
+- Added functional requirements: RobotModel, Operator, Task Assignment, Task Execution, Log
+- Worked on relations for some functional requirements
+- Worked on non-functional requirements
+- Worked on parts of ERD diagram
+- Added main data items and entities
 
 ---
 
