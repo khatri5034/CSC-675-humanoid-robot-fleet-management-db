@@ -50,7 +50,8 @@
 
 - Added functional requirements
 - Worked on relations for some funcitonal requirements
-- Worked on ERD diagram
+- Worked on parts of ERD diagram
+- Worked on main data items and entities
 
 ---
 
