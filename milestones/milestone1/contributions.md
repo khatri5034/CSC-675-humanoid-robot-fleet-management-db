@@ -46,7 +46,7 @@
 
 ## Ishaank Zalpuri
 **Email:** izalpuri@sfsu.edu  
-**GitHub:** *(add your GitHub username)*
+**GitHub:** izalpuri-creator
 
 - Added functional requirements: RobotModel, Operator, Task Assignment, Task Execution, Log
 - Worked on relations for some functional requirements
@@ -58,10 +58,10 @@
 
 ## Etienne Ghashehbaba
 **Email:** eghashehbaba@mail.sfsu.edu  
-**GitHub:** *(add your GitHub username)*
+**GitHub:** ahe4d
 
-- *(Replace with your specific contributions. Be concrete.)*
-- 
-- 
+- EDD diagram (helped fill in Assignments and Locations)
+- Worked on functional requirements: Deployment Location, Assignment, Address, Factory
+- Worked on non-functional requirements
 
 ---
