@@ -23,6 +23,10 @@ This file contains the feedback for your final version of milestone 1. If you ha
 - In general, this is good work. The EER is really good. You can  move to milestone 2. 
 - Milestone 1 version 2 will be graded when you submit milestone 2 version 1. 
 
+## Instructor's Note:
+
+This team won the best milestone award (together with another team) and every member of the team is awarded with +5 points EC. These points will be added to your final grade at the end of the semester. 
+
 
 
 
