@@ -58,9 +58,8 @@
 **Email:** eghashehbaba@mail.sfsu.edu  
 **GitHub:** ahe4d
 
-- 
-- 
-- 
+- Normalized EER in shared .drawio file in google drive
+- Worked on TaskAssignment, Task, TaskExecution tables
 
 ---
 
