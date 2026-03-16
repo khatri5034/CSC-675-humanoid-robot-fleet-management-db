@@ -69,8 +69,8 @@
 **GitHub:** shadii10
 
 - Normalized EER in shared .drawio file in google drive
-- 
-- 
+- Worked on Normalizaion (1NF) and (2NF), Helped teammates with any issues they ran into as well.
+- Helped with any AI requests, logs and hardware. Helped also with any remaining problems with the EER diagram.
 
 ---
 
