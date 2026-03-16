@@ -17,9 +17,10 @@
 **Email:** kkhatri@sfsu.edu  
 **GitHub:** khatri5034
 
-- *(Replace these bullets with your specific Milestone 2 contributions: e.g., led schema design for core tables, wrote/updated parts of `Schema.sql`, coordinated review of normalization decisions, compiled `m2.pdf`, etc.)*
-- 
-- 
+- Created insert.sql file 
+- Normalized EER in shared .drawio file in google drive
+- Created Normalize table (3NF) on Robot, deploymentLocation, Technician
+- Worked on AIRequests, AIResponse, SupportRequest, MaintenanceRecord, EmotionalAnalyze, HardwareMaintenance 
 
 ---
 
@@ -27,9 +28,9 @@
 **Email:** kyu19@sfsu.edu  
 **GitHub:** Kerry3616
 
-- *(Replace with specific Milestone 2 contributions: e.g., normalized tables related to tasks and deployment, implemented FKs and ON DELETE/ON UPDATE rules for X tables, wrote sample data in `inserts.sql` for these tables.)*
+- Normalized EER in shared .drawio file in google drive
 - 
-- 
+-
 
 ---
 
@@ -37,7 +38,7 @@
 **Email:** dalmat@sfsu.edu  
 **GitHub:** vincivv
 
-- *(Replace with specific Milestone 2 contributions: e.g., worked on normalization for robot/charging entities, designed indexing strategy, tested schema with sample inserts, updated `eer_normalized.drawio`.)*
+- Normalized EER in shared .drawio file in google drive
 - 
 - 
 
@@ -47,7 +48,7 @@
 **Email:** izalpuri@sfsu.edu  
 **GitHub:** izalpuri-creator
 
-- *(Replace with specific Milestone 2 contributions: e.g., derived functional dependencies for interaction/log tables, ensured 3NF/BCNF where applicable, helped refactor `Draft.sql` into final `Schema.sql`.)*
+- Normalized EER in shared .drawio file in google drive
 - 
 - 
 
@@ -57,7 +58,7 @@
 **Email:** eghashehbaba@mail.sfsu.edu  
 **GitHub:** ahe4d
 
-- *(Replace with specific Milestone 2 contributions: e.g., worked on hospital/warehouse/home-related tables, set ON UPDATE/ON DELETE policies, updated `eer_normalized.drawio`.)*
+- 
 - 
 - 
 
@@ -67,7 +68,7 @@
 **Email:** sdaher@sfsu.edu  
 **GitHub:** shadii10
 
-- *(Replace with specific Milestone 2 contributions: e.g., added/verified constraints for technician/maintenance tables, helped format `m2.pdf`, reviewed normalization justifications.)*
+- Normalized EER in shared .drawio file in google drive
 - 
 - 
 
