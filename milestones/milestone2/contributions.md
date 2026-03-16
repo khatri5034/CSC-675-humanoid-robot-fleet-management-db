@@ -39,8 +39,8 @@
 **GitHub:** vincivv
 
 - Normalized EER in shared .drawio file in google drive
-- 
-- 
+- Added Techician (1NF) to Normalization table.
+- Worked on Manufacturers, Hardware, RobotHardware, Adresses, EnergyStatus, Logs, Sensors, TechnicianNames tables.
 
 ---
 
