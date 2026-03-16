@@ -29,8 +29,8 @@
 **GitHub:** Kerry3616
 
 - Normalized EER in shared .drawio file in google drive
-- 
--
+- Worked on Home, Warehouse, Hospital, Factory, Department, EmotionalPattern, MaintenanceRecord
+- Added LogSession (1NF) to Normalization table
 
 ---
 
