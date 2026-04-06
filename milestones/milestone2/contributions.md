@@ -49,8 +49,8 @@
 **GitHub:** izalpuri-creator
 
 - Normalized EER in shared .drawio file in google drive
-- 
-- 
+- Worked on Robotrole, alert , Technician Name, performanceMectrics, interaction session
+- Added deploymentLocaion , supportRequest to Normalization table
 
 ---
 
@@ -68,8 +68,8 @@
 **GitHub:** shadii10
 
 - Normalized EER in shared .drawio file in google drive
-- 
-- 
+- Added Log Session , Hardware manintenance to normalization table.
+- Worked on software Version, ChargingStation and chargingSession
 
 ---
 
