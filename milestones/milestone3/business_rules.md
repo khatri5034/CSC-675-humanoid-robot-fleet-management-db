@@ -1,4 +1,8 @@
-# Business rules
+# AI-Powered Humanoid Robot Fleet Management System
+
+## Milestone 3 – Phase 1: Business Rules Definition
+
+---
 
 ## Rule 1: Minimum Battery to Execute Task
 
@@ -28,21 +32,7 @@
 
 ---
 
-## Rule 3: AI Response recommending valid role to robot
-
-**Purpose:** Prevent invalid role.
-
-**Description:** AI should recommend the valid roles to the robot based on energy status and hardware specs.
-
-**Challenges:** Needs to join on multiple tables like Robot, RobotRole, Task, AI requests, energy status, hardware.
-
-**Assumptions:** AI can recommend robot roles based on the data available from required tables.
-
-**Planned Approach:** Trigger on AI response for role.
-
----
-
-## Rule 4: One active task per Robot
+## Rule 3: One active task per Robot
 
 **Purpose:** Prevents overloading robots.
 
@@ -56,49 +46,35 @@
 
 ---
 
-## Rule 5: Set Robot Active Time
+## Rule 4: Safe Task Scheduling and Robot Coordination
 
-**Purpose:** Prevent interference with users and other robots.
+**Purpose:** Ensure that robots execute tasks in a coordinated and conflict-free manner within shared environments.
 
-**Description:** When assigned a task a robot shall also need a time to begin executing the task, making sure the robot doesn’t crash into another one or interfere with other activities depending on the deployment location.
+**Description:** The system must manage task assignments so that each robot is scheduled with a start time that does not conflict with its own existing tasks. A robot shall not begin a new task if it already has an active task in progress. Task execution must be coordinated to prevent overlapping operations for the same robot.
 
-**Challenges:** Can cause delays in execution of all tasks across robot fleet.
+**Challenges:** Each task execution has a defined start time and end time. A task is considered active if it has started but not yet completed.
 
-**Assumptions:** Robots can move, and will not always be monitored by a user.
+**Assumptions:** Robots operate in shared environments where conflicts are possible. Each task has a defined time window and location. Robot assignments and schedules are stored in the database.
 
-**Planned Approach:** Triggers on task assignment (A robot cannot execute a task that overlaps with another robot or user path preventing assignment altogether).
-
----
-
-## Rule 6: Robot Cannot Execute Task without Assignment by user or AI
-
-**Purpose:** Prevent Robot from unauthorized execution.
-
-**Description:** A robot shall not execute a task by itself unless the robot has a senior role or assigned by a user or by AI to make sure the robot gets tasks as per their specs and status.
-
-**Challenges:** Checking multiple tables before assigning.
-
-**Assumptions:** TaskAssignment table must exist and contains the tasks needed to be completed.
-
-**Planned Approach:** Trigger on TaskExecutions.
+**Planned Approach:** Use a stored procedure to assign tasks that checks for scheduling conflicts before inserting a new task execution record. Implement triggers to validate that new or updated task schedules do not overlap with existing ones for the same robot or location. Use helper functions to detect time and location conflicts between tasks.
 
 ---
 
-## Rule 7: Task Timeout
+## Rule 5: Maintenance Restricts Operational Activity
 
-**Purpose:** Assign a new robot to the task if unseen situations occur.
+**Purpose:** Prevent unsafe operation of robots undergoing maintenance.
 
-**Description:** If the robot does not complete the task under specified time, reassign the robot from the task and give it to a new robot.
+**Description:** The system restricts task execution for robots that have an open or active MaintenanceRecord.
 
-**Challenges:** Tracking the start time and expected time, and figuring the optimal expected time.
+**Challenges:** The database must determine whether a maintenance period is currently active.
 
-**Assumptions:** Task table must exist and contain the expected time.
+**Assumptions:** MaintenanceRecord includes timestamps that indicate maintenance duration.
 
-**Planned Approach:**
+**Planned Approach:** Use a trigger on TaskExecution to validate maintenance status before allowing execution.
 
 ---
 
-## Rule 8: Robot can not charge and execute a task at the same time
+## Rule 6: Robot cannot charge and execute a task at the same time
 
 **Purpose:** Prevents robots from having multiple states at once.
 
@@ -108,102 +84,130 @@
 
 **Assumptions:** A robot must stop a task execution before starting to charge.
 
-**Planned Approach:** Check for current status before executing a task/charging session.
+**Planned Approach:** Triggers on TaskExecutions and ChargingSessions.
 
 ---
 
-## Rule 9: Robots cannot have multiple active roles
+## Rule 7: Single Active Role per Robot
 
-**Purpose:** Enforce one role at a time.
+**Purpose:** Ensure operational clarity and prevent conflicting behaviour by restricting each robot to one active role at a time.
 
-**Description:** A robot shall have only one role during the active sessions assigned by AI or user.
+**Description:** Single role for the robot so that robot cannot hold more than one active role simultaneously. When a new role assignment is recorded for a robot, any previously active role must be completed, deactivated, or replaced before the new role becomes effective. This prevents ambiguity in robot responsibilities and maintains consistent task coordination.
 
-**Challenges:** Must have the details of the robots and also its existing role and also look up multiple tables.
+**Challenges:** Role records may be updated or inserted over time. The database must determine which role is currently active and prevent overlapping active role assignments for the same robot.
 
-**Assumptions:** Role is stored in RobotRole table and description of robot in robot table.
+**Assumptions:** Robot roles are stored in the RobotRole table. A role can be identified as active based on status or timestamp attributes.
 
-**Planned Approach:** Trigger on RobotRole.
-
----
-
-## Rule 10: Maintenance Tiers for the Robot that restrict activity
-
-**Purpose:** To prevent overuse, breakdown or user injury.
-
-**Description:** Robots shall have different maintenance tiers based on how long they’ve been active, how many times they’ve been charged, how many tasks they’ve executed, and how long it’s been since their last maintenance/repair session.
-
-**Challenges:** Determining restrictions and how many tiers till complete restriction.
-
-**Assumptions:** Robot is dangerous when not maintained.
-
-**Planned Approach:** Triggers on all actions incrementing a maintenance tier value every time.
+**Planned Approach:** Use a trigger on RobotRole insertion or update that checks for existing active role records for the same robot. If another active role exists, the operation is rejected or the previous role is automatically deactivated before allowing the new assignment.
 
 ---
 
-## Rule 11: Emotional Record must belong to existing interactions
+## Rule 8: Automatic Alert on Critical Battery Level
 
-**Purpose:** Prevent data from corruption and stale.
+**Purpose:** Ensure low-energy conditions are recorded immediately.
 
-**Description:** Emotional record shall not exist without interactionSession and user.
+**Description:** If a robot’s battery level falls below a defined threshold, an alert record is automatically generated.
 
-**Challenges:** Keeping track of emotion of the users based on the interactions.
+**Challenges:** Battery values change frequently and must be monitored consistently.
 
-**Assumptions:** Robots shall record user emotions in the Emotional record table based on interaction sessions.
+**Assumptions:** EnergyStatus records battery levels with timestamps.
 
-**Planned Approach:** Triggers on corresponding tables.
-
----
-
-## Rule 12: Automatic Role Reassignment
-
-**Purpose:** Ensure continuous coordination if the robot holding a critical role becomes unavailable.
-
-**Description:** If a robot assigned to a critical role becomes unavailable, the system shall assign that role to a new robot.
-
-**Challenges:** Detecting the unavailability, choosing the proper replacement.
-
-**Assumptions:** Robot status is accurate and updated frequently in the Robot table.
-
-**Planned Approach:** Use a trigger on robot status updates.
+**Planned Approach:** Use a trigger on EnergyStatus insert/update to create an Alert when battery level < threshold.
 
 ---
 
-## Rule 13: Analyzing emotional patterns by AI and sending alerts
+## Rule 9: Task Execution Requires Valid Assignment
 
-**Purpose:** To detect emotionally critical situations and notify operators in real time.
+**Purpose:** Ensure that robots only execute tasks that have been formally assigned and authorized within the system.
 
-**Description:** If an AI model analyzes emotional patterns and detects a high risk emotional state, the system shall automatically generate an alert for the associated robot.
+**Description:** The system must restrict task execution to tasks that have an existing and valid assignment record. A robot cannot begin execution of a task unless that task is associated with a corresponding Task assignment entry linking the robot and the task. This ensures controlled task management within the fleet.
 
-**Challenges:** Requires tracking of emotion and drawing the emotional pattern and also looking up multiple tables.
+**Challenges:** Task execution records may be inserted directly without verifying whether a valid assignment exists. The database must validate the relationship between Robot, Task, and TaskAssignment before allowing execution to proceed.
 
-**Assumptions:** Emotional state has a threshold value and emotional pattern is generated automatically based on emotional record per session.
+**Assumptions:** All valid task assignments are recorded in the TaskAssignment table prior to execution. A task execution is considered valid only if a matching assignment exists for the same robot and task.
 
-**Planned Approach:** Trigger on emotional patterns and AI response.
-
----
-
-## Rule 14: Robot Hardware Compatibility for Task Assignment
-
-**Purpose:** Prevent robots from being assigned tasks they are physically or technically unable to perform.
-
-**Description:** A robot shall not be assigned or begin execution of a task unless its hardware specifications meet all task requirements.
-
-**Challenges:** This is non-trivial because it requires comparing task requirements against robot capabilities, possibly across multiple tables such as Robot, HardwareSpecs, Task, and TaskRequirements. It may also involve checking several attributes at once, such as arm type, mobility, sensor availability, lifting capacity, or processing capability.
-
-**Assumptions:** Each task has clearly defined hardware requirements, and each robot has up-to-date hardware specification records stored in the database.
-
-**Planned Approach:** Trigger or stored procedure on task assignment and/or task execution that validates the assigned robot against the task’s required hardware profile before allowing the record.
+**Planned Approach:** Implement an insert trigger on the TaskExecution table that checks for the existence of a corresponding TaskAssignment record for the same robot and task. If no valid assignment is found, the operation is rejected. A helper function may be used to verify assignment validity.
 
 ---
 
-## Rule 15: Collision Avoidance Between Robots During Task Execution
+## Rule 10: Robot performance record and diagnostic report
 
-**Purpose:** Prevent physical collisions and ensure safe navigation when multiple robots are operating simultaneously.
+**Purpose:** Ensure that declining robot performance is automatically detected and formally documented for further analysis.
 
-**Description:** Two or more robots shall not be assigned tasks that result in overlapping paths or conflicting spatial zones at the same time.
+**Description:** The system must monitor performance metrics recorded for each robot. When a newly inserted performance metric falls below a defined acceptable threshold for a given metric type, a corresponding diagnostic report is automatically generated for that robot. This ensures that abnormal or degraded performance conditions are not overlooked and are formally tracked within the system.
 
-**Challenges:** This is non-trivial because it requires analyzing robot movement paths, locations, and timing across multiple active tasks. It may involve checking time windows, coordinates, and predicted paths stored in different tables.
+**Challenges:** Performance metrics may vary by metric type and threshold values may differ depending on operational context. The database must evaluate the inserted metric value against the appropriate threshold and determine whether a diagnostic report already exists for the same condition to avoid duplicate reports.
 
-**Assumptions:** Each task includes location data (zones, coordinates, or paths), and robot positions are tracked or estimated in the system.
+**Assumptions:** Performance metrics are recorded in the PerformanceMetric table with a metric type, value, and timestamp. Threshold values are predefined and consistently applied for each metric type. Diagnostic reports are stored in the DiagnosticReport table and associated with a specific robot.
 
-**Planned Approach:** Trigger or procedure on task assignment that checks for spatial and temporal conflicts with other active tasks before allowing the assignment.
+**Planned Approach:** Implement an insert trigger on the PerformanceMetric table that compares the new metric value against the defined threshold. If the value falls below the acceptable limit, the trigger inserts a new record into the DiagnosticReport table for the corresponding robot. A helper function may be used to evaluate threshold logic and prevent duplicate reports within a defined time window.
+
+---
+
+## Rule 11: Support Request on Critical Alert
+
+**Purpose:** Ensure that critical robot issues are formally tracked and escalated for resolution.
+
+**Description:** When an alert with severity marked as “Critical” is recorded for a robot, the system automatically creates a corresponding SupportRequest linked to that robot. This ensures that serious operational issues are not ignored and are formally assigned for review and resolution.
+
+**Challenges:** The system must detect the severity level at the time of alert creation and prevent duplicate support requests for the same unresolved issue.
+
+**Assumptions:** Alert records include a severity attribute. A SupportRequest represents a formal record of required maintenance. Technicians are registered in the system and may later be assigned to the support request.
+
+**Planned Approach:** Implement an insert trigger on the Alert table. When a new alert is inserted with high severity, the trigger automatically inserts a corresponding record into the SupportRequest table.
+
+---
+
+## Rule 12: Emotional record mapping only during interaction session
+
+**Purpose:** Ensure emotional data is recorded only within valid robot-user interaction periods.
+
+**Description:** An EmotionalRecord can only be created if it is associated with an existing and active InteractionSession. The timestamp of the emotional record must fall within the start_time and end_time of the corresponding interaction session. This ensures emotional data reflects actual interaction activity rather than standalone or invalid entries.
+
+**Challenges:** The database must verify temporal consistency by comparing the emotional record timestamp against the interaction session’s time window. It must also ensure that the referenced interaction session exists.
+
+**Assumptions:** InteractionSession stores start_time and end_time. EmotionalRecord includes a timestamp and references an interaction_id. An interaction is considered valid only within its defined time range.
+
+**Planned Approach:** Use a trigger on the EmotionalRecord table to validate temporal and referential consistency before allowing a new record to be created. The trigger checks that the referenced InteractionSession exists and retrieves its start_time and end_time values. It then compares the EmotionalRecord timestamp against this time window. If the emotional record timestamp falls outside the interaction session’s defined time range, the operation is rejected. This ensures emotional data is recorded only during valid interaction periods and maintains temporal integrity within the database.
+
+---
+
+## Rule 13: Single Active AI Request per Robot
+
+**Purpose:** Prevent overlapping AI processing requests for the same robot and maintain clear decision flow when required.
+
+**Description:** At any given time, a robot can have only one active AIRequest record. A new AI Request for a robot cannot be created if another request for the same robot is still pending or incomplete.
+
+**Challenges:** To make the pipeline to get current active AIRequest and associated AIModel.
+
+**Assumptions:** AI Request includes information to determine whether a request is associated with one model.
+
+**Planned Approach:** Use an insert trigger on the AIRequest table to check whether an active request already exists for the same robot.
+
+---
+
+## Rule 14: Technician specialization and robot Model
+
+**Purpose:** Ensure that maintenance tasks are performed only by technicians who are qualified to service a specific robot model.
+
+**Description:** When a MaintenanceRecord is created, the associated technician has to service the robot. The database prevents assigning wrong technicians.
+
+**Challenges:** The database must validate that the technician has specialization for the robot model. This requires checking relationships between Technician, Robot, and RobotModels tables.
+
+**Assumptions:** Technician specializations are stored in an associative table. Technicians qualifications are maintained and up to date in the database.
+
+**Planned Approach:** Insert trigger on the MaintenanceRecord table. The trigger retrieves the robot's model and verifies that the technician is associated with that model in the specialization table.
+
+---
+
+## Rule 15: Robot Model Deployment compatibility
+
+**Purpose:** Ensure that different deployment locations operate only with compatible robot models and approved software.
+
+**Description:** When a robot is assigned to a deployment location, the database validates that the robot model is supported in that specific environment type and that the installed software is approved for that model within that environment. If the combination of location type, robot model, and software is not right, the assignment of the robot to that location is rejected.
+
+**Challenges:** The validation requires checking across multiple related tables which may increase the complexity.
+
+**Assumptions:** Certain deployment environments require specific robot models and approved software configurations. For example, hospitals, warehouses, and homes may have different requirements. Each robot model is associated with one or more compatible software and deployment locations define operational constraints based on environment type.
+
+**Planned Approach:** Implement a stored procedure for robot registration or deployment that validates compatibility between the robot model, software versions and deployment location type before inserting.
