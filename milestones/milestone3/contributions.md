@@ -28,7 +28,9 @@
 **Email:** kyu19@sfsu.edu  
 **GitHub:** Kerry3616
 
-- Worked on Rules 10, 11, 12 and converted them into SQL code
+- Worked on business rules 10, 11, and 12
+- Converted them to SQL in `business_rules.sql`
+- Justified them in `m3.pdf`
 
 ---
 
