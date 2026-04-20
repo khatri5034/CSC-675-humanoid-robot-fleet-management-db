@@ -33,7 +33,7 @@
 **Email:** dalmat@sfsu.edu  
 **GitHub:** vincivv
 
-- *(Replace with your Milestone 3 contributions.)*
+- *Worked on converting rules 1, 2, 3 into SQL code*
 
 ---
 
