@@ -25,7 +25,7 @@
 **Email:** kyu19@sfsu.edu  
 **GitHub:** Kerry3616
 
-- *(Replace with your Milestone 3 contributions.)*
+- Worked on Rules 7, 8, 9 and conveted them into SQL code
 
 ---
 
