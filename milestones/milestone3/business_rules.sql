@@ -8,39 +8,16 @@ Challenges: checking latest timestamp battery level per robot
 Assumptions: Latest EnergyStatus record represent current battery
 Planned Approach: Trigger on task execution
 */
-DROP FUNCTION IF EXISTS fn_latest_battery;
+DROP TRIGGER IF EXISTS trg_rule1_min_battery;
 DELIMITER $$
-
-CREATE FUNCTION fn_latest_battery(p_robot_id INT)
-    RETURNS INT
-    DETERMINISTIC
-    READS SQL DATA
-BEGIN
-    DECLARE v_battery INT;
-
-    SELECT es.BatteryLevel
-    INTO v_battery
-    FROM EnergyStatus es
-    WHERE es.RobotID = p_robot_id
-    ORDER BY es.RecordedAt DESC, es.EnergyStatusID DESC
-    LIMIT 1;
-
-    RETURN v_battery;
-END$$
-
-DELIMITER ;
-
-
-DROP TRIGGER IF EXISTS trg_check_battery_before_task_execution;
-DELIMITER $$
-
-CREATE TRIGGER trg_check_battery_before_task_execution
+CREATE TRIGGER trg_rule1_min_battery
     BEFORE INSERT ON TaskExecutions
     FOR EACH ROW
 BEGIN
     DECLARE v_robot_id INT;
     DECLARE v_battery INT;
 
+    -- Find the robot assigned to this task
     SELECT ta.RobotID
     INTO v_robot_id
     FROM TaskAssignments ta
@@ -50,19 +27,25 @@ BEGIN
 
     IF v_robot_id IS NULL THEN
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Cannot start task execution: no robot assigned to this task.';
+            SET MESSAGE_TEXT = 'Rule 1 violated: no robot assigned to this task.';
     END IF;
 
-    SET v_battery = fn_latest_battery(v_robot_id);
+    -- Get the latest battery from EnergyStatus directly
+    SELECT es.BatteryLevel
+    INTO v_battery
+    FROM EnergyStatus es
+    WHERE es.RobotID = v_robot_id
+    ORDER BY es.RecordedAt DESC, es.EnergyStatusID DESC
+    LIMIT 1;
 
     IF v_battery IS NULL THEN
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Cannot start task execution: no battery record found for robot.';
+            SET MESSAGE_TEXT = 'Rule 1 violated: no battery record found.';
     END IF;
 
     IF v_battery < 20 THEN
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Cannot start task execution: robot battery is below 20%.';
+            SET MESSAGE_TEXT = 'Rule 1 violated: battery below 20 percent.';
     END IF;
 END$$
 
@@ -76,34 +59,11 @@ Assumptions: Active session records represent the latest number of robots at cha
 Planned Approach: Trigger on ChargingStationsSessions.
  */
 
-DROP FUNCTION IF EXISTS fn_active_station_sessions;
+DROP TRIGGER IF EXISTS trg_rule2_station_capacity;
+
 DELIMITER $$
 
-CREATE FUNCTION fn_active_station_sessions(p_station_id INT)
-    RETURNS INT
-    DETERMINISTIC
-    READS SQL DATA
-BEGIN
-    DECLARE v_count INT;
-
-    SELECT COUNT(*)
-    INTO v_count
-    FROM ChargingStationSessions css
-             JOIN ChargingSessions cs
-                  ON css.ChargingSessionID = cs.ChargingSessionID
-    WHERE css.ChargingStationID = p_station_id
-      AND cs.EndTime IS NULL;
-
-    RETURN v_count;
-END$$
-
-DELIMITER ;
-
-
-DROP TRIGGER IF EXISTS trg_check_station_capacity_before_insert;
-DELIMITER $$
-
-CREATE TRIGGER trg_check_station_capacity_before_insert
+CREATE TRIGGER trg_rule2_station_capacity
     BEFORE INSERT ON ChargingStationSessions
     FOR EACH ROW
 BEGIN
@@ -111,6 +71,7 @@ BEGIN
     DECLARE v_active_count INT;
     DECLARE v_new_session_end DATETIME;
 
+    -- Get station capacity
     SELECT Capacity
     INTO v_capacity
     FROM ChargingStations
@@ -118,21 +79,32 @@ BEGIN
 
     IF v_capacity IS NULL THEN
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Charging station not found.';
+            SET MESSAGE_TEXT = 'Rule 2 violated: station not found.';
     END IF;
 
+    -- Check if the new session is active
     SELECT EndTime
     INTO v_new_session_end
     FROM ChargingSessions
     WHERE ChargingSessionID = NEW.ChargingSessionID;
 
+    -- Only enforce rule if session is active
     IF v_new_session_end IS NULL THEN
-        SET v_active_count = fn_active_station_sessions(NEW.ChargingStationID);
+
+        -- Count current active sessions
+        SELECT COUNT(*)
+        INTO v_active_count
+        FROM ChargingStationSessions css
+                 JOIN ChargingSessions cs
+                      ON css.ChargingSessionID = cs.ChargingSessionID
+        WHERE css.ChargingStationID = NEW.ChargingStationID
+          AND cs.EndTime IS NULL;
 
         IF v_active_count >= v_capacity THEN
             SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'Cannot assign charging session: station capacity exceeded.';
+                SET MESSAGE_TEXT = 'Rule 2 violated: station capacity exceeded.';
         END IF;
+
     END IF;
 END$$
 
@@ -147,29 +119,6 @@ Assumptions: a robot can not be multitasking.
 Planned Approach: Triggers on Task Execution.
  */
 
-DROP FUNCTION IF EXISTS fn_robot_active_task_count;
-DELIMITER $$
-
-CREATE FUNCTION fn_robot_active_task_count(p_robot_id INT)
-    RETURNS INT
-    DETERMINISTIC
-    READS SQL DATA
-BEGIN
-    DECLARE v_count INT;
-
-    SELECT COUNT(*)
-    INTO v_count
-    FROM TaskExecutions te
-             JOIN TaskAssignments ta
-                  ON te.TaskID = ta.TaskID
-    WHERE ta.RobotID = p_robot_id
-      AND te.Status = 0;
-
-    RETURN v_count;
-END$$
-
-DELIMITER ;
-
 DROP TRIGGER IF EXISTS trg_rule3_one_active_task;
 
 DELIMITER $$
@@ -179,8 +128,9 @@ CREATE TRIGGER trg_rule3_one_active_task
     FOR EACH ROW
 BEGIN
     DECLARE v_robot_id INT;
-    DECLARE v_active_task_count INT;
+    DECLARE v_active_count INT;
 
+    -- Find the robot assigned to this task
     SELECT ta.RobotID
     INTO v_robot_id
     FROM TaskAssignments ta
@@ -190,13 +140,20 @@ BEGIN
 
     IF v_robot_id IS NULL THEN
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Rule 3 violated: no robot assignment found for this task.';
+            SET MESSAGE_TEXT = 'Rule 3 violated: no robot assigned to this task.';
     END IF;
 
+    -- Only check if the new task execution is active
     IF NEW.Status = 0 THEN
-        SET v_active_task_count = fn_robot_active_task_count(v_robot_id);
+        SELECT COUNT(*)
+        INTO v_active_count
+        FROM TaskExecutions te
+                 JOIN TaskAssignments ta
+                      ON te.TaskID = ta.TaskID
+        WHERE ta.RobotID = v_robot_id
+          AND te.Status = 0;
 
-        IF v_active_task_count >= 1 THEN
+        IF v_active_count >= 1 THEN
             SIGNAL SQLSTATE '45000'
                 SET MESSAGE_TEXT = 'Rule 3 violated: robot already has one active task.';
         END IF;
