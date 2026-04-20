@@ -41,7 +41,7 @@
 **Email:** izalpuri@sfsu.edu  
 **GitHub:** izalpuri-creator
 
-- *(Replace with your Milestone 3 contributions.)*
+- Worked on converting Rules 7, 8, 9 into SQL code
 
 ---
 
