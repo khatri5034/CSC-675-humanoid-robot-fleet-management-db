@@ -18,6 +18,9 @@
 **GitHub:** khatri5034
 
 - Created `contributions.md` for Milestone 3
+- Worked on business rule 13
+- Created `m3.pdf`
+- Reviewed and rewrote portions of `business_rules.sql`
 
 ---
 
@@ -33,7 +36,9 @@
 **Email:** dalmat@sfsu.edu  
 **GitHub:** vincivv
 
-- *Worked on converting rules 1, 2, 3 into SQL code*
+- Worked on business rules 1, 2, and 3
+- Converted them to SQL in `business_rules.sql`
+- Justified them in `m3.pdf`
 
 ---
 
@@ -41,7 +46,9 @@
 **Email:** izalpuri@sfsu.edu  
 **GitHub:** izalpuri-creator
 
-- Worked on converting Rules 7, 8, 9 into SQL code
+- Worked on business rules 7, 8, and 9
+- Converted them to SQL in `business_rules.sql`
+- Justified them in `m3.pdf`
 
 ---
 
@@ -49,7 +56,9 @@
 **Email:** eghashehbaba@mail.sfsu.edu  
 **GitHub:** ahe4d
 
-- *(Replace with your Milestone 3 contributions.)*
+- Worked on business rules 4, 5, and 6
+- Converted them to SQL in `business_rules.sql`
+- Justified them in `m3.pdf`
 
 ---
 
@@ -57,7 +66,9 @@
 **Email:** sdaher@sfsu.edu  
 **GitHub:** shadii10
 
-- *(Replace with your Milestone 3 contributions.)*
+- Worked on business rules 13 and 14
+- Converted them to SQL in `business_rules.sql`
+- Justified them in `m3.pdf`
 
 ---
 
