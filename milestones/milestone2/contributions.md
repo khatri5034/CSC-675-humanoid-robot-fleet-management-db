@@ -68,8 +68,8 @@
 **GitHub:** shadii10
 
 - Normalized EER in shared .drawio file in google drive
-- Added Log Session , Hardware manintenance to normalization table.
-- Worked on software Version, ChargingStation and chargingSession
+- Worked on Normalizaion (1NF) and (2NF), Helped teammates with any issues they ran into as well.
+- Helped with any AI requests, logs and hardware. Helped also with any remaining problems with the EER diagram.
 
 ---
 
