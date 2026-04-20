@@ -57,14 +57,7 @@
 **Email:** sdaher@sfsu.edu  
 **GitHub:** shadii10
 
-- I contributed to the development and refinement of Business Rules 14 and 15 for the database system.
-
-For Rule 14 (Technician Specialization and Robot Model), I focused on defining and validating the logic that ensures maintenance tasks are only assigned to technicians who are properly qualified for the specific robot model. This included designing the relationship checks between technicians, their specializations, and robot models to enforce accurate and safe maintenance assignments.
-
-For Rule 15 (Robot Model Deployment Compatibility), I developed the logic to ensure that robots are only deployed in environments where their model and software configurations are fully compatible. This required considering multi-table relationships and defining validation rules across robot models, software versions, and deployment location types.
-
-In addition, I contributed to the Business Rules document (PDF) by helping structure, review, and refine the clarity and completeness of the rules to ensure they meet the project requirements and are understandable for both technical and non-technical audiences.
-
+- *(Replace with your Milestone 3 contributions.)*
 
 ---
 

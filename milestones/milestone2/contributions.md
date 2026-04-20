@@ -29,8 +29,8 @@
 **GitHub:** Kerry3616
 
 - Normalized EER in shared .drawio file in google drive
-- 
--
+- Worked on Home, Warehouse, Hospital, Factory, Department, EmotionalPattern, MaintenanceRecord
+- Added LogSession (1NF) to Normalization table
 
 ---
 
@@ -49,8 +49,8 @@
 **GitHub:** izalpuri-creator
 
 - Normalized EER in shared .drawio file in google drive
-- 
-- 
+- Worked on Robotrole, alert , Technician Name, performanceMectrics, interaction session
+- Added deploymentLocaion , supportRequest to Normalization table
 
 ---
 
@@ -58,9 +58,8 @@
 **Email:** eghashehbaba@mail.sfsu.edu  
 **GitHub:** ahe4d
 
-- 
-- 
-- 
+- Normalized EER in shared .drawio file in google drive
+- Worked on TaskAssignment, Task, TaskExecution tables
 
 ---
 
