@@ -1,6 +1,7 @@
 """Robo-Nexus ORM model definitions.
 
 These models map core milestone tables and are used by `services/services.py`.
+Class names match SQL table names so `Base.table_descriptor()` resolves correctly.
 """
 
 from orm.columns import Column
@@ -8,18 +9,12 @@ from orm.datatypes import DateTime, Integer, String
 from orm.base import Base
 
 
-class User(Base):
-    __name__ = "Users"
-    __tablename__ = "Users"
-
+class Users(Base):
     UserID = Column(Integer, primary_key=True)
     UserName = Column(String, nullable=False)
 
 
-class Robot(Base):
-    __name__ = "Robots"
-    __tablename__ = "Robots"
-
+class Robots(Base):
     RobotID = Column(Integer, primary_key=True)
     RobotRoleID = Column(Integer, nullable=False)
     RobotModelID = Column(Integer, nullable=False)
@@ -28,10 +23,7 @@ class Robot(Base):
     SoftwareVersionID = Column(Integer, nullable=False)
 
 
-class Task(Base):
-    __name__ = "Tasks"
-    __tablename__ = "Tasks"
-
+class Tasks(Base):
     TaskID = Column(Integer, primary_key=True)
     TaskName = Column(String, nullable=False)
     Description = Column(String, nullable=False)
@@ -39,10 +31,7 @@ class Task(Base):
     Status = Column(Integer, nullable=False)
 
 
-class TaskAssignment(Base):
-    __name__ = "TaskAssignments"
-    __tablename__ = "TaskAssignments"
-
+class TaskAssignments(Base):
     TaskAssignmentID = Column(Integer, primary_key=True)
     RobotID = Column(Integer, nullable=False)
     UserID = Column(Integer, nullable=False)
@@ -50,18 +39,8 @@ class TaskAssignment(Base):
     AssignedAt = Column(DateTime, nullable=False)
 
 
-class SupportRequest(Base):
-    __name__ = "SupportRequests"
-    __tablename__ = "SupportRequests"
-
+class SupportRequests(Base):
     SupportRequestID = Column(Integer, primary_key=True)
     RobotID = Column(Integer, nullable=False)
     IssueDetails = Column(String, nullable=False)
     TimeReported = Column(DateTime, nullable=False)
-
-
-
-
-
-
-
