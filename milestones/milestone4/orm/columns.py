@@ -31,7 +31,7 @@
 #       name = Column(String(255), nullable=False)  # String column, not nullable
 #       email = Column(String(100), unique=True)  # String column, with a unique constraint
 #       created_at = Column(Date)  # Date column
-#       profile_id = Column(Integer, foreign_key='Profile(id)')  # Foreign key referencing 'Profile' table
+#       profile_id = Column(Integer, foreign_key='Profile(id)')  # or foreign_key=True to mark only
 #
 #   The ORM will use these `Column` instances to define the table schema and generate the
 #   corresponding SQL for table creation, validation, and foreign key enforcement.
@@ -87,7 +87,7 @@ class Column:
             constraints.append("UNIQUE")
         if self.auto_increment:
             constraints.append("AUTO_INCREMENT")
-        if self.foreign_key:
+        if isinstance(self.foreign_key, str) and self.foreign_key:
             constraints.append(f"REFERENCES {self.foreign_key}")
             if self.on_delete:
                 constraints.append(f"ON DELETE {self.on_delete}")
@@ -96,4 +96,8 @@ class Column:
         return " ".join(constraints)
 
     def is_foreign_key(self):
-        return self.foreign_key is not None
+        if self.foreign_key is True:
+            return True
+        if isinstance(self.foreign_key, str) and self.foreign_key:
+            return True
+        return False

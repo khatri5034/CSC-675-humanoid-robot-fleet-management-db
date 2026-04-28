@@ -40,7 +40,10 @@ task1.save()
 tasks = Tasks.all()
 
 
-print("Simple model  tests executed.")
-print(f"Users fetched: {len(users)}")
-print(f"Tasks fetched: {len(tasks)}")
+# print("Simple model  tests executed.")
+# print(f"Users fetched: {len(users)}")
+# print(f"Tasks fetched: {len(tasks)}")
+
+task = Tasks.get(TaskID=1)
+print(task)
 
