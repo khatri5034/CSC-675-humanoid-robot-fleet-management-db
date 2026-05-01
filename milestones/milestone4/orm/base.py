@@ -38,6 +38,14 @@ from orm.columns import Column
 class Base:
     def __init__(self, **kwargs):
         """Initialize model instance with attributes."""
+
+        _registry = {}
+        def __init_subclass__(cls, **kwargs):
+            super().__init_subclass__(**kwargs)
+            Base._registry[cls.table_descriptor()] = cls
+        
+
+
         for key, value in kwargs.items():
             setattr(self, key, value)
 
@@ -67,8 +75,7 @@ class Base:
         values = [self.__dict__[attr] for attr in attributes]
         placeholders = ", ".join(["%s"] * len(attributes))
 
-        # INSERT INTO Artist (name) VALUES (%s)
-        # INSERT INTO Album (title, year_released) VALUES (%s, %s)
+        
         query = f"INSERT INTO {table} ({fields}) VALUES ({placeholders})"
 
         connection, cursor = MySQL.instance()
@@ -343,3 +350,6 @@ class Base:
 
 
 
+    @classmethod
+    def resolve_model(cls, model_name):
+        return cls._registry[model_name]
