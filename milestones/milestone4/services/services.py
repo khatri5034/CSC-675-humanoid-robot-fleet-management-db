@@ -7,7 +7,16 @@ No raw SQL should appear in this file.
 from datetime import datetime
 from typing import Any, List, Optional
 
-from models.models import Robots, SupportRequests, TaskAssignments, Tasks, Users
+from models.models import (
+    AIModels,
+    AIRequests,
+    AIResponses,
+    Robots,
+    SupportRequests,
+    TaskAssignments,
+    Tasks,
+    Users,
+)
 
 
 def create_user(user_name: str) -> Any:
@@ -94,4 +103,65 @@ def list_robot_tasks(robot_id: int) -> List[Any]:
     if robot_id <= 0:
         raise ValueError("robot_id must be a positive integer.")
     return TaskAssignments.filter(RobotID=robot_id)
+
+
+def register_ai_model(model_name: str, service_type: str, version_label: str) -> Any:
+    """Create and persist an AI model record."""
+    if not model_name or not model_name.strip():
+        raise ValueError("model_name is required.")
+    if not service_type or not service_type.strip():
+        raise ValueError("service_type is required.")
+    if not version_label or not version_label.strip():
+        raise ValueError("version_label is required.")
+
+    ai_model = AIModels(
+        ModelName=model_name.strip(),
+        ServiceType=service_type.strip(),
+        VersionLabel=version_label.strip(),
+    )
+    ai_model.save()
+    return ai_model
+
+
+def create_ai_request(ai_model_id: int, robot_id: int) -> Any:
+    """Create an AI request for a robot using a model."""
+    if ai_model_id <= 0:
+        raise ValueError("ai_model_id must be a positive integer.")
+    if robot_id <= 0:
+        raise ValueError("robot_id must be a positive integer.")
+
+    ai_request = AIRequests(
+        AIModelID=ai_model_id,
+        RobotID=robot_id,
+        RequestedAt=datetime.now(),
+    )
+    ai_request.save()
+    return ai_request
+
+
+def create_ai_response(
+    ai_request_id: int,
+    robot_role_id: int,
+    task_id: int,
+    response_text: str,
+) -> Any:
+    """Create an AI response linked to request, role, and task."""
+    if ai_request_id <= 0:
+        raise ValueError("ai_request_id must be a positive integer.")
+    if robot_role_id <= 0:
+        raise ValueError("robot_role_id must be a positive integer.")
+    if task_id <= 0:
+        raise ValueError("task_id must be a positive integer.")
+    if not response_text or not response_text.strip():
+        raise ValueError("response_text is required.")
+
+    ai_response = AIResponses(
+        AIRequestsID=ai_request_id,
+        RobotRoleID=robot_role_id,
+        TaskID=task_id,
+        GeneratedAt=datetime.now(),
+        Response=response_text.strip(),
+    )
+    ai_response.save()
+    return ai_response
 
