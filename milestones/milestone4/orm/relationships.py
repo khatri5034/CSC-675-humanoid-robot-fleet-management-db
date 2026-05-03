@@ -9,6 +9,15 @@ class Relationship:
     def __set_name__(self, owner, name):
         self.attribute_name = name
 
+    def _append_backref(self, related, source):
+        if not self.backreference or related is None:
+            return
+        if not hasattr(related, self.backreference):
+            setattr(related, self.backreference, [])
+        bucket = getattr(related, self.backreference)
+        if source not in bucket:
+            bucket.append(source)
+
     def __get__(self, instance, owner):
         if instance is None:
             return self
@@ -16,7 +25,9 @@ class Relationship:
         cache = Cache(self.attribute_name or "relationship")
 
         if self.lazy_load and cache.has(instance):
-            return cache.get(instance)
+            model_object = cache.get(instance)
+            self._append_backref(model_object, instance)
+            return model_object
 
         model = owner.resolve_model(self.model_name)
         if model is None:
@@ -32,8 +43,7 @@ class Relationship:
         if self.lazy_load:
             cache.add(instance, model_object)
 
-        if self.backreference and model_object is not None:
-            setattr(model_object, self.backreference, instance)
+        self._append_backref(model_object, instance)
 
         return model_object
 

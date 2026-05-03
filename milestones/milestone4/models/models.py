@@ -79,6 +79,11 @@ class Robots(Base):
     owner_user = Relationship("Users", "UserID", backreference="robots", lazy_load=True)
     software_version = Relationship("SoftwareVersions", "SoftwareVersionID", backreference="robots", lazy_load=True)
 
+    @property
+    def user(self):
+        """Alias for owner_user (Users row for this robot's UserID)."""
+        return self.owner_user
+
     def __repr__(self):
         return f"Robots(RobotID={self.RobotID})"
 
@@ -105,9 +110,9 @@ class TaskAssignments(Base):
     TaskID = Column(Integer, nullable=False, foreign_key="Tasks(TaskID)")
     AssignedAt = Column(DateTime(type="TIMESTAMP"), nullable=False)
 
-    robot = Relationship("Robots", "RobotID", lazy_load=True)
-    user = Relationship("Users", "UserID", lazy_load=True)
-    task = Relationship("Tasks", "TaskID", lazy_load=True)
+    robot = Relationship("Robots", "RobotID", backreference="task_assignments", lazy_load=True)
+    user = Relationship("Users", "UserID", backreference="task_assignments", lazy_load=True)
+    task = Relationship("Tasks", "TaskID", backreference="task_assignments", lazy_load=True)
 
     def __repr__(self):
         return f"TaskAssignments(TaskAssignmentID={self.TaskAssignmentID})"
@@ -121,7 +126,7 @@ class SupportRequests(Base):
     IssueDetails = Column(String(type="TEXT"), nullable=False)
     TimeReported = Column(DateTime, nullable=False)
 
-    robot = Relationship("Robots", "RobotID", lazy_load=True)
+    robot = Relationship("Robots", "RobotID", backreference="support_requests", lazy_load=True)
 
     def __repr__(self):
         return f"SupportRequests(SupportRequestID={self.SupportRequestID})"
@@ -147,8 +152,8 @@ class AIRequests(Base):
     RobotID = Column(Integer, nullable=False, foreign_key="Robots(RobotID)")
     RequestedAt = Column(DateTime, nullable=False)
 
-    ai_model = Relationship("AIModels", "AIModelID", lazy_load=True)
-    robot = Relationship("Robots", "RobotID", lazy_load=True)
+    ai_model = Relationship("AIModels", "AIModelID", backreference="ai_requests", lazy_load=True)
+    robot = Relationship("Robots", "RobotID", backreference="ai_requests", lazy_load=True)
 
     def __repr__(self):
         return f"AIRequests(AIRequestID={self.AIRequestID})"
@@ -158,13 +163,14 @@ class AIResponses(Base):
     __tablename__ = "AIResponses"
 
     AIResponseID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
-    AIRequestID = Column(Integer, nullable=False, foreign_key="AIRequests(AIRequestID)")
+    # DB column name is AIRequestsID (see milestone2/Schema.sql); maps to AIRequests.AIRequestID
+    AIRequestsID = Column(Integer, nullable=False, foreign_key="AIRequests(AIRequestID)")
     RobotRoleID = Column(Integer, nullable=False, foreign_key="RobotRoles(RobotRoleID)")
     TaskID = Column(Integer, nullable=False, foreign_key="Tasks(TaskID)")
     GeneratedAt = Column(DateTime, nullable=False)
     Response = Column(String(type="TEXT"), nullable=False)
 
-    ai_request = Relationship("AIRequests", "AIRequestID", lazy_load=True)
+    ai_request = Relationship("AIRequests", "AIRequestsID", backreference="ai_responses", lazy_load=True)
     robot_role = Relationship("RobotRoles", "RobotRoleID", lazy_load=True)
     task = Relationship("Tasks", "TaskID", lazy_load=True)
 
