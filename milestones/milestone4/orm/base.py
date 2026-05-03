@@ -34,18 +34,18 @@ from orm.db_connectors import MySQL
 from orm.columns import Column
 
 
-
 class Base:
+    _registry = {}
+    _identity_map = {}
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        if cls is Base:
+            return
+        Base._registry[cls.table_descriptor()] = cls
+
     def __init__(self, **kwargs):
         """Initialize model instance with attributes."""
-
-        _registry = {}
-        def __init_subclass__(cls, **kwargs):
-            super().__init_subclass__(**kwargs)
-            Base._registry[cls.table_descriptor()] = cls
-        
-
-
         for key, value in kwargs.items():
             setattr(self, key, value)
 
@@ -353,3 +353,23 @@ class Base:
     @classmethod
     def resolve_model(cls, model_name):
         return cls._registry[model_name]
+    
+    @classmethod
+    def identity_key(cls, pk_value):
+         return (cls.table_descriptor(), pk_value)
+
+    @classmethod
+    def get_identity_instance(cls, pk_value):
+        key = cls.identity_key(pk_value)
+        return cls._identity_map.get(key)
+
+    @classmethod
+    def add_identity_instance(cls, obj):
+        pk = cls.primary_key()
+        pk_value = getattr(obj, pk, None)
+        if pk_value is None:
+            return obj
+        key = cls.identity_key(pk_value)
+        cls._identity_map[key] = obj
+        return obj
+

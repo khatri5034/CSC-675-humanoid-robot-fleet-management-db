@@ -1,42 +1,47 @@
 class Relationship:
-    def __init__(self,model_name, foreign_key,backreference=None, lazy_load=True):
+    def __init__(self, model_name, foreign_key, backreference=None, lazy_load=True):
         self.model_name = model_name
         self.fk = foreign_key
         self.lazy_load = lazy_load
-        self.attribute_name = None 
+        self.attribute_name = None
         self.backreference = backreference
+
     def __set_name__(self, owner, name):
         self.attribute_name = name
-    def __get__(self, instance, owner):
-        """
 
-        """
+    def __get__(self, instance, owner):
         if instance is None:
             return self
-        
-        cache = Cache(self.attribute_name)
-        if self.lazy:
-            if cache.has(instance):
-                return cache.get(instance)
 
-        model  = owner.resolve_model(self.model_name)
+        cache = Cache(self.attribute_name or "relationship")
 
-        fk_value = getattr(instance, self.fk)
-        if model is None or fk_value is None:
+        if self.lazy_load and cache.has(instance):
+            return cache.get(instance)
+
+        model = owner.resolve_model(self.model_name)
+        if model is None:
             return None
-        model_object = model.get(id=fk_value)
-        if self.lazy and cache is not None:
+
+        fk_value = getattr(instance, self.fk, None)
+        if fk_value is None:
+            return None
+
+        pk_name = model.primary_key()
+        model_object = model.get(**{pk_name: fk_value})
+
+        if self.lazy_load:
             cache.add(instance, model_object)
-        
-        setattr(model_object, self.backreference, instance)
-            
-        
+
+        if self.backreference and model_object is not None:
+            setattr(model_object, self.backreference, instance)
+
+        return model_object
+
+
 class Cache:
-    def __init_(self,attribute_name):
+    def __init__(self, attribute_name):
         self.cache_name = f"_{attribute_name}_cache"
-    @property
-    def name(self):
-        return self.cache_name
+
     def add(self, instance, model_object):
         setattr(instance, self.cache_name, model_object)
 
