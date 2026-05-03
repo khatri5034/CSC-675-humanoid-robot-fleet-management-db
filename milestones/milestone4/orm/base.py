@@ -392,13 +392,7 @@ class Base:
             - Build the WHERE clause dynamically based on the given conditions (e.g., `WHERE column = value`).
             - Return the generated WHERE condition string.
         """
-        if not conditions:
-            return "", ()
-
-        clause = " AND ".join([f"{field} = %s" for field in conditions.keys()])
-        values = tuple(conditions.values())
-
-        return f" WHERE {clause}", values
+        pass
 
     @classmethod
     def having(cls, **conditions):
