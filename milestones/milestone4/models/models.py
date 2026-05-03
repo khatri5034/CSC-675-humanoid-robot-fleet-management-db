@@ -1,48 +1,71 @@
-"""Core Robo-Nexus ORM models used by milestone4 services."""
-
 from orm.base import Base
 from orm.columns import Column
-from orm.datatypes import DateTime, Integer, String
+from orm.datatypes import Integer, String, DateTime
+from orm.relationships import Relationship
 
 
 class Users(Base):
     __tablename__ = "Users"
+
     UserID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
     UserName = Column(String(length=45), nullable=False)
+
+    def __repr__(self):
+        return f"Users(UserID={self.UserID}, UserName={self.UserName})"
 
 
 class RobotRoles(Base):
     __tablename__ = "RobotRoles"
+
     RobotRoleID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
-    RobotRole = Column(String(type="ENUM('Senior', 'Worker')", length=None), nullable=True)
+    RobotRole = Column(String(type="ENUM('Senior','Worker')"), nullable=True)
     UserID = Column(Integer, nullable=False, foreign_key="Users(UserID)")
-    AIResponseID = Column(Integer, nullable=False)
+    AIResponseID = Column(Integer, nullable=False, foreign_key="AIResponses(AIResponseID)")
+
+    user = Relationship("Users", "UserID", backreference="robot_roles", lazy_load=True)
+    ai_response = Relationship("AIResponses", "AIResponseID", backreference="robot_roles", lazy_load=True)
+
+    def __repr__(self):
+        return f"RobotRoles(RobotRoleID={self.RobotRoleID}, RobotRole={self.RobotRole})"
 
 
 class RobotModels(Base):
     __tablename__ = "RobotModels"
+
     RobotModelID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
-    Model = Column(String(type="ENUM('Model1', 'Model2')", length=None), nullable=True)
+    Model = Column(String(type="ENUM('Model1','Model2')"), nullable=True)
     ManufacturerID = Column(Integer, nullable=True)
+
+    def __repr__(self):
+        return f"RobotModels(RobotModelID={self.RobotModelID}, Model={self.Model})"
 
 
 class DeploymentLocations(Base):
     __tablename__ = "DeploymentLocations"
+
     DeploymentLocationID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
     EnvironmentType = Column(
-        String(type="ENUM('HOME', 'HOSPITAL', 'WAREHOUSE', 'FACTORY')", length=None),
-        nullable=False,
+        String(type="ENUM('HOME','HOSPITAL','WAREHOUSE','FACTORY')"),
+        nullable=False
     )
     AddressID = Column(Integer, nullable=False)
+
+    def __repr__(self):
+        return f"DeploymentLocations(ID={self.DeploymentLocationID})"
 
 
 class SoftwareVersions(Base):
     __tablename__ = "SoftwareVersions"
+
     SoftwareVersionID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
+
+    def __repr__(self):
+        return f"SoftwareVersions(ID={self.SoftwareVersionID})"
 
 
 class Robots(Base):
     __tablename__ = "Robots"
+
     RobotID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
     RobotRoleID = Column(Integer, nullable=False, foreign_key="RobotRoles(RobotRoleID)")
     RobotModelID = Column(Integer, nullable=False, foreign_key="RobotModels(RobotModelID)")
@@ -50,54 +73,100 @@ class Robots(Base):
     UserID = Column(Integer, nullable=False, foreign_key="Users(UserID)")
     SoftwareVersionID = Column(Integer, nullable=False, foreign_key="SoftwareVersions(SoftwareVersionID)")
 
+    robot_role = Relationship("RobotRoles", "RobotRoleID", backreference="robots", lazy_load=True)
+    robot_model = Relationship("RobotModels", "RobotModelID", backreference="robots", lazy_load=True)
+    deployment_location = Relationship("DeploymentLocations", "DeploymentLocationID", backreference="robots", lazy_load=True)
+    owner_user = Relationship("Users", "UserID", backreference="robots", lazy_load=True)
+    software_version = Relationship("SoftwareVersions", "SoftwareVersionID", backreference="robots", lazy_load=True)
+
+    def __repr__(self):
+        return f"Robots(RobotID={self.RobotID})"
+
 
 class Tasks(Base):
     __tablename__ = "Tasks"
+
     TaskID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
     TaskName = Column(String(length=64), nullable=False)
-    Description = Column(String(type="TEXT", length=None), nullable=False)
-    Priority = Column(String(type="ENUM('1', '2', '3', '4', '5')", length=None), nullable=False)
+    Description = Column(String(type="TEXT"), nullable=False)
+    Priority = Column(String(type="ENUM('1','2','3','4','5')"), nullable=False)
     Status = Column(Integer(type="TINYINT"), nullable=False)
+
+    def __repr__(self):
+        return f"Tasks(TaskID={self.TaskID})"
 
 
 class TaskAssignments(Base):
     __tablename__ = "TaskAssignments"
+
     TaskAssignmentID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
     RobotID = Column(Integer, nullable=False, foreign_key="Robots(RobotID)")
     UserID = Column(Integer, nullable=False, foreign_key="Users(UserID)")
     TaskID = Column(Integer, nullable=False, foreign_key="Tasks(TaskID)")
     AssignedAt = Column(DateTime(type="TIMESTAMP"), nullable=False)
 
+    robot = Relationship("Robots", "RobotID", lazy_load=True)
+    user = Relationship("Users", "UserID", lazy_load=True)
+    task = Relationship("Tasks", "TaskID", lazy_load=True)
+
+    def __repr__(self):
+        return f"TaskAssignments(TaskAssignmentID={self.TaskAssignmentID})"
+
 
 class SupportRequests(Base):
     __tablename__ = "SupportRequests"
+
     SupportRequestID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
     RobotID = Column(Integer, nullable=False, foreign_key="Robots(RobotID)")
-    IssueDetails = Column(String(type="TEXT", length=None), nullable=False)
+    IssueDetails = Column(String(type="TEXT"), nullable=False)
     TimeReported = Column(DateTime, nullable=False)
+
+    robot = Relationship("Robots", "RobotID", lazy_load=True)
+
+    def __repr__(self):
+        return f"SupportRequests(SupportRequestID={self.SupportRequestID})"
 
 
 class AIModels(Base):
     __tablename__ = "AIModels"
+
     AIModelID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
     ModelName = Column(String(length=45), nullable=False)
     ServiceType = Column(String(length=45), nullable=False)
     VersionLabel = Column(String(length=45), nullable=False)
 
+    def __repr__(self):
+        return f"AIModels(AIModelID={self.AIModelID})"
+
 
 class AIRequests(Base):
     __tablename__ = "AIRequests"
+
     AIRequestID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
     AIModelID = Column(Integer, nullable=False, foreign_key="AIModels(AIModelID)")
     RobotID = Column(Integer, nullable=False, foreign_key="Robots(RobotID)")
     RequestedAt = Column(DateTime, nullable=False)
 
+    ai_model = Relationship("AIModels", "AIModelID", lazy_load=True)
+    robot = Relationship("Robots", "RobotID", lazy_load=True)
+
+    def __repr__(self):
+        return f"AIRequests(AIRequestID={self.AIRequestID})"
+
 
 class AIResponses(Base):
     __tablename__ = "AIResponses"
+
     AIResponseID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
-    AIRequestsID = Column(Integer, nullable=False, foreign_key="AIRequests(AIRequestID)")
+    AIRequestID = Column(Integer, nullable=False, foreign_key="AIRequests(AIRequestID)")
     RobotRoleID = Column(Integer, nullable=False, foreign_key="RobotRoles(RobotRoleID)")
     TaskID = Column(Integer, nullable=False, foreign_key="Tasks(TaskID)")
     GeneratedAt = Column(DateTime, nullable=False)
-    Response = Column(String(type="TEXT", length=None), nullable=False)
+    Response = Column(String(type="TEXT"), nullable=False)
+
+    ai_request = Relationship("AIRequests", "AIRequestID", lazy_load=True)
+    robot_role = Relationship("RobotRoles", "RobotRoleID", lazy_load=True)
+    task = Relationship("Tasks", "TaskID", lazy_load=True)
+
+    def __repr__(self):
+        return f"AIResponses(AIResponseID={self.AIResponseID})"
