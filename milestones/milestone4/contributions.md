@@ -18,7 +18,7 @@
 **GitHub:** khatri5034
 
 - Created `contributions.md` for Milestone 4
-- Worked on **`Users`**, **`RobotRoles`**, **`RobotModels`**, and **`DeploymentLocations`** in `models/models.py` (table definitions, columns, and relationships as assigned)
+- Worked on **`Users`**, **`RobotRoles`**, **`RobotModels`**, and **`DeploymentLocations`** in `models/models.py` (table definitions, columns, and relationships )
 - Worked on `orm/relationships.py` (relationship loading, caching, and backreference behavior)
 
 ---
@@ -35,7 +35,7 @@
 **Email:** dalmat@sfsu.edu  
 **GitHub:** vincivv
 
-- *(Add your Milestone 4 deliverables here with file paths and what they do.)*
+- Worked on `orm/base.py`: **`delete`**, **`create`**, **`create_schema`**, **`join`**, and **`query`** (and related query-building behavior)
 
 ---
 
@@ -43,7 +43,7 @@
 **Email:** izalpuri@sfsu.edu  
 **GitHub:** izalpuri-creator
 
-- *(Add your Milestone 4 deliverables here with file paths and what they do.)*
+- Worked on **`SoftwareVersions`**, **`Robots`**, **`Tasks`**, and **`TaskAssignments`** in `models/models.py` (table definitions, columns, and relationships)
 
 ---
 
@@ -51,7 +51,7 @@
 **Email:** eghashehbaba@mail.sfsu.edu  
 **GitHub:** ahe4d
 
-- *(Add your Milestone 4 deliverables here with file paths and what they do.)*
+- Worked on **`SupportRequests`**, **`AIModels`**, **`AIRequests`**, and **`AIResponses`** in `models/models.py` (table definitions, columns, and relationships)
 
 ---
 
@@ -59,7 +59,7 @@
 **Email:** sdaher@sfsu.edu  
 **GitHub:** shadii10
 
-- *(Add your Milestone 4 deliverables here with file paths and what they do.)*
+- Worked on `services/services.py` (service helpers for users, robots, tasks, support, and AI flows)
 
 ---
 
