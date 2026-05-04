@@ -4,7 +4,7 @@ from orm.datatypes import Integer, String, DateTime
 from orm.relationships import Relationship
 
 
-class Users(Base):
+class User(Base):
     __tablename__ = "Users"
 
     UserID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
@@ -14,7 +14,7 @@ class Users(Base):
         return f"Users(UserID={self.UserID}, UserName={self.UserName})"
 
 
-class RobotRoles(Base):
+class RobotRole(Base):
     __tablename__ = "RobotRoles"
 
     RobotRoleID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
@@ -29,7 +29,7 @@ class RobotRoles(Base):
         return f"RobotRoles(RobotRoleID={self.RobotRoleID}, RobotRole={self.RobotRole})"
 
 
-class RobotModels(Base):
+class RobotModel(Base):
     __tablename__ = "RobotModels"
 
     RobotModelID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
@@ -40,7 +40,7 @@ class RobotModels(Base):
         return f"RobotModels(RobotModelID={self.RobotModelID}, Model={self.Model})"
 
 
-class DeploymentLocations(Base):
+class DeploymentLocation(Base):
     __tablename__ = "DeploymentLocations"
 
     DeploymentLocationID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
@@ -54,7 +54,7 @@ class DeploymentLocations(Base):
         return f"DeploymentLocations(ID={self.DeploymentLocationID})"
 
 
-class SoftwareVersions(Base):
+class SoftwareVersion(Base):
     __tablename__ = "SoftwareVersions"
 
     SoftwareVersionID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
@@ -63,7 +63,7 @@ class SoftwareVersions(Base):
         return f"SoftwareVersions(ID={self.SoftwareVersionID})"
 
 
-class Robots(Base):
+class Robot(Base):
     __tablename__ = "Robots"
 
     RobotID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
@@ -88,7 +88,7 @@ class Robots(Base):
         return f"Robots(RobotID={self.RobotID})"
 
 
-class Tasks(Base):
+class Task(Base):
     __tablename__ = "Tasks"
 
     TaskID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
@@ -101,7 +101,7 @@ class Tasks(Base):
         return f"Tasks(TaskID={self.TaskID})"
 
 
-class TaskAssignments(Base):
+class TaskAssignment(Base):
     __tablename__ = "TaskAssignments"
 
     TaskAssignmentID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
@@ -118,7 +118,7 @@ class TaskAssignments(Base):
         return f"TaskAssignments(TaskAssignmentID={self.TaskAssignmentID})"
 
 
-class SupportRequests(Base):
+class SupportRequest(Base):
     __tablename__ = "SupportRequests"
 
     SupportRequestID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
@@ -132,7 +132,7 @@ class SupportRequests(Base):
         return f"SupportRequests(SupportRequestID={self.SupportRequestID})"
 
 
-class AIModels(Base):
+class AIModel(Base):
     __tablename__ = "AIModels"
 
     AIModelID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
@@ -144,7 +144,7 @@ class AIModels(Base):
         return f"AIModels(AIModelID={self.AIModelID})"
 
 
-class AIRequests(Base):
+class AIRequest(Base):
     __tablename__ = "AIRequests"
 
     AIRequestID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
@@ -159,7 +159,7 @@ class AIRequests(Base):
         return f"AIRequests(AIRequestID={self.AIRequestID})"
 
 
-class AIResponses(Base):
+class AIResponse(Base):
     __tablename__ = "AIResponses"
 
     AIResponseID = Column(Integer, primary_key=True, auto_increment=True, nullable=False)
