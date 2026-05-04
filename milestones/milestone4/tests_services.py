@@ -1,20 +1,6 @@
-#!/usr/bin/env python3
-"""
-Walk through a small fleet scenario using the functions in services/services.py.
 
-Deployment, robot model, software build, and robot role rows still use the ORM
-directly where there is no helper in services (RobotRoles needs AIResponseID=1).
 
-Run:
-  cd milestones/milestone4 && python tests_services.py
-"""
 
-import os
-import sys
-
-_ROOT = os.path.dirname(os.path.abspath(__file__))
-if _ROOT not in sys.path:
-    sys.path.insert(0, _ROOT)
 
 from models.models import (
     DeploymentLocations,
