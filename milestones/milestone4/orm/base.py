@@ -295,36 +295,37 @@ class Base:
 
     @classmethod
     def where(cls, **conditions):
-        """Add WHERE conditions to a query.
+        """Build a WHERE clause dynamically."""
+        if not conditions:
+            return "", ()
 
-        TODO:
-            - This method should help in adding WHERE conditions to any SELECT query.
-            - Build the WHERE clause dynamically based on the given conditions (e.g., `WHERE column = value`).
-            - Return the generated WHERE condition string.
-        """
-        pass
+        clause = " WHERE " + " AND ".join(
+            [f"{column} = %s" for column in conditions.keys()]
+        )
+        values = tuple(conditions.values())
+
+        return clause, values
 
     @classmethod
     def having(cls, **conditions):
-        """Add HAVING conditions to a query.
+        """Build a HAVING clause dynamically."""
+        if not conditions:
+            return "", ()
 
-        TODO:
-            - This method should help in adding HAVING conditions to a query.
-            - Construct the HAVING clause dynamically (useful when performing aggregate functions).
-            - Return the generated HAVING condition string.
-        """
-        pass
+        clause = " HAVING " + " AND ".join(
+            [f"{column} = %s" for column in conditions.keys()]
+        )
+        values = tuple(conditions.values())
+
+        return clause, values
 
     @classmethod
     def group_by(cls, *columns):
-        """Add GROUP BY clauses to a query.
+        """Build a GROUP BY clause dynamically."""
+        if not columns:
+            return ""
 
-        TODO:
-            - This method should help in adding GROUP BY clauses to any SELECT query.
-            - Construct the GROUP BY clause dynamically based on the provided columns (e.g., `GROUP BY column1, column2`).
-            - Return the generated GROUP BY condition string.
-        """
-        pass
+        return " GROUP BY " + ", ".join(columns)
 
     @classmethod
     def table_descriptor(cls):
