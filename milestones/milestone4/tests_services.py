@@ -1,7 +1,5 @@
 
 
-
-
 from models.models import (
     DeploymentLocations,
     RobotModels,
@@ -88,7 +86,7 @@ def main() -> int:
     )
     print("AI model catalog entry:", aim)
 
-    # One open AI request per robot: two robots ⇒ two requests; respond before any second request on same robot.
+    # One open AI request per robot: respond for robot 1 before opening another request on same robot.
     req = create_ai_request(aim.AIModelID, robot.RobotID)
     print("John’s robot asked for a plan:", req)
     resp = create_ai_response(

@@ -278,5 +278,8 @@ def main() -> int:
     return 0
 
 
+    print("robot.where(RobotID=1):", Robots.where(RobotID=1))
+   
+
 if __name__ == "__main__":
     raise SystemExit(main())
