@@ -27,7 +27,7 @@
 **Email:** kyu19@sfsu.edu  
 **GitHub:** Kerry3616
 
-- *(Add your Milestone 4 deliverables here with file paths and what they do.)*
+- Worked on **`Where`**, **`Having`**,and **`Group-by`** in `orm/base.py`
 
 ---
 
