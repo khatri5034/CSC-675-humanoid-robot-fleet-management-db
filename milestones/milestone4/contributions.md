@@ -27,7 +27,7 @@
 **Email:** kyu19@sfsu.edu  
 **GitHub:** Kerry3616
 
-- Worked on **`Where`**, **`Having`**,and **`Group-by`** in `orm/base.py`
+- Worked on **`Where`**, **`Having`**,and  **`Group-by`** in `orm/base.py`
 
 ---
 
