@@ -279,7 +279,30 @@ class Base:
             - Ensure the connection and cursor are properly closed after the operation.
             - Commit the transaction if successful; rollback if there's an error.
         """
-        pass
+        table = cls.table_descriptor()
+        columns = cls.columns()
+        if not columns:
+            raise ValueError(f"{cls.__name__} does not define any columns.")
+
+        column_definitions = []
+        for name, column in columns.items():
+            column_definitions.append(f"{name} {column.to_sql()}")
+
+        schema = ", ".join(column_definitions)
+        query = f"CREATE TABLE IF NOT EXISTS {table} ({schema})"
+
+        connection, cursor = MySQL.instance()
+
+        try:
+            cursor.execute(query)
+            connection.commit()
+            return query
+        except Exception as e:
+            connection.rollback()
+            raise e
+        finally:
+            cursor.close()
+            connection.close()
 
     @classmethod
     def join(cls, models):
@@ -291,7 +314,74 @@ class Base:
             - Ensure the connection and cursor are properly closed after the operation.
             - Return the joined results.
         """
-        pass
+        if not isinstance(models, (list, tuple)):
+            models = [models]
+        if not models:
+            raise ValueError("At least one model must be provided for join().")
+
+        select_parts = []
+        joined_tables = [cls]
+        from_table = cls.table_descriptor()
+
+        for model in [cls, *models]:
+            table_name = model.table_descriptor()
+            for column_name in model.columns().keys():
+                alias = f"{table_name}__{column_name}"
+                select_parts.append(f"{table_name}.{column_name} AS {alias}")
+
+        join_clauses = []
+        for model in models:
+            match = None
+            for joined_model in joined_tables:
+                left_table = joined_model.table_descriptor()
+                right_table = model.table_descriptor()
+
+                for column_name, column in joined_model.columns().items():
+                    if not isinstance(column.foreign_key, str):
+                        continue
+
+                    target_table, target_column = column.foreign_key.strip().rstrip(")").split("(", 1)
+                    if target_table == right_table:
+                        match = f"{left_table}.{column_name} = {right_table}.{target_column}"
+                        break
+
+                if match is not None:
+                    break
+
+                for column_name, column in model.columns().items():
+                    if not isinstance(column.foreign_key, str):
+                        continue
+
+                    target_table, target_column = column.foreign_key.strip().rstrip(")").split("(", 1)
+                    if target_table == left_table:
+                        match = f"{right_table}.{column_name} = {left_table}.{target_column}"
+                        break
+
+                if match is not None:
+                    break
+
+            if match is None:
+                raise ValueError(
+                    f"No foreign-key relationship found between joined models "
+                    f"and {model.__name__}."
+                )
+
+            join_clauses.append(f"JOIN {model.table_descriptor()} ON {match}")
+            joined_tables.append(model)
+
+        query = (
+            f"SELECT {', '.join(select_parts)} "
+            f"FROM {from_table} "
+            f"{' '.join(join_clauses)}"
+        )
+
+        connection, cursor = MySQL.instance()
+        try:
+            cursor.execute(query)
+            return cursor.fetchall()
+        finally:
+            cursor.close()
+            connection.close()
 
     @classmethod
     def where(cls, **conditions):
@@ -380,4 +470,3 @@ class Base:
         key = cls.identity_key(pk_value)
         cls._identity_map[key] = obj
         return obj
-
