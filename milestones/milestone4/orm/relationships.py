@@ -22,7 +22,7 @@ class Relationship:
         if instance is None:
             return self
 
-        cache = Cache(self.attribute_name or "relationship")
+        cache = Cache(self.attribute_name)
 
         if self.lazy_load and cache.has(instance):
             model_object = cache.get(instance)

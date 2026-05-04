@@ -1,6 +1,20 @@
+#!/usr/bin/env python3
+"""
+Walk through a small fleet scenario using the functions in services/services.py.
 
+Deployment, robot model, software build, and robot role rows still use the ORM
+directly where there is no helper in services (RobotRoles needs AIResponseID=1).
 
+Run:
+  cd milestones/milestone4 && python tests_services.py
+"""
 
+import os
+import sys
+
+_ROOT = os.path.dirname(os.path.abspath(__file__))
+if _ROOT not in sys.path:
+    sys.path.insert(0, _ROOT)
 
 from models.models import (
     DeploymentLocations,
@@ -88,7 +102,7 @@ def main() -> int:
     )
     print("AI model catalog entry:", aim)
 
-    # One open AI request per robot: two robots ⇒ two requests; respond before any second request on same robot.
+    # One open AI request per robot: respond for robot 1 before opening another request on same robot.
     req = create_ai_request(aim.AIModelID, robot.RobotID)
     print("John’s robot asked for a plan:", req)
     resp = create_ai_response(
